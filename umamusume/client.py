@@ -181,7 +181,7 @@ class UmaMusumeAPI:
         # Assumes the API returns a list of character dictionaries
         return [BasicCharacter(**char) for char in data]
     
-    async def fetch_character_detail(self, id: int, use_cache: bool = True) -> DetailedCharacter:
+    async def fetch_character_detail(self, id: str, use_cache: bool = True) -> DetailedCharacter:
         """Fetches detailed information for a specific character by their ID.
 
         Args:
