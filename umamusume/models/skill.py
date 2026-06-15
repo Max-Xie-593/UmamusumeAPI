@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from pydantic import Field
-from typing import Optional, List, Union, Dict, Any
+from typing import Optional, List, Dict, Any
 from .base import UmaMusumeModel, LocalizedNameMixin, LocalizedDescMixin
 from .enums import TypeElement
 
