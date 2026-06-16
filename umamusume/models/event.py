@@ -11,7 +11,7 @@ class EventReward(UmaMusumeModel):
     is_random: Optional[bool] = Field(default=None, alias="r")
 
 class EventChoice(UmaMusumeModel):
-    option: str = Field(alias="o")
+    option: Optional[str] = Field(default=None, alias="o")
     rewards: Optional[List[EventReward]] = Field(default=None, alias="r")
 
 class EventItem(UmaMusumeModel):
