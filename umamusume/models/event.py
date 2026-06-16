@@ -18,7 +18,7 @@ class EventItem(UmaMusumeModel):
     id: Optional[int] = Field(default=None, alias="i")
     name: Optional[str] = Field(default=None, alias="n")
     choices: Optional[List[EventChoice]] = Field(default=None, alias="c")
-    conditions: Optional[List[List[Union[str, int]]]] = None
+    conditions: Optional[List[List[Any]]] = None
     did_not_exist: Optional[str] = None
 
 class EventDetails(UmaMusumeModel):
