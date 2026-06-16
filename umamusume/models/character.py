@@ -59,16 +59,16 @@ class CharData(UmaMusumeModel):
     char_id: int
     jp_name: str
     en_name: str
-    name_ko: str
-    name_tw: str
+    name_ko: Optional[str] = None
+    name_tw: Optional[str] = None
     playable: bool
     active: bool
     active_ko: Optional[bool] = None
     active_zh_tw: Optional[bool] = None
     va_en: Optional[str] = None
     va_ja: str
-    va_ko: str
-    va_zh_tw: str
+    va_ko: Optional[str] = None
+    va_zh_tw: Optional[str] = None
     va_link: Optional[str] = None
     three_sizes: Optional[ThreeSizes] = None 
     birth_day: int
