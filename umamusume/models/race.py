@@ -110,10 +110,10 @@ class DetailedTrackName(PagePropsModel):
 
 class Race(UmaMusumeModel):
     id: int
-    name_en: str
+    name_en: Optional[str] = None
     name_jp: str
-    name_ko: str
-    name_tw: str
+    name_ko: Optional[str] = None
+    name_tw: Optional[str] = None
     group: int
     grade: int
     track: int
