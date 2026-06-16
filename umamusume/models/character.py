@@ -81,7 +81,7 @@ class CharData(UmaMusumeModel):
     playable_zh_tw: Optional[bool] = None
     playable_en: Optional[bool] = None
     active_en: Optional[bool] = None
-    race: Optional[str] = None
+    race: Optional[Union[str, bool]] = None
 
     @field_validator('va_link')
     @classmethod
