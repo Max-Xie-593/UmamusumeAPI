@@ -63,8 +63,8 @@ class CharData(UmaMusumeModel):
     name_tw: str
     playable: bool
     active: bool
-    active_ko: bool
-    active_zh_tw: bool
+    active_ko: Optional[bool] = None
+    active_zh_tw: Optional[bool] = None
     va_en: str
     va_ja: str
     va_ko: str
