@@ -39,12 +39,12 @@ class BasicCharacter(UmaMusumeModel, LocalizedNameMixin, LocalizedTitleMixin, Lo
     talent_group: int
 
 class Rl(UmaMusumeModel):
-    country: str
-    races: int
-    wins: int
-    record: str
-    earnings: int
-    active: str
+    country: Optional[str] = None
+    races: Optional[int] = None
+    wins: Optional[int] = None
+    record: Optional[str] = None
+    earnings: Optional[int] = None
+    active: Optional[str] = None
     death: Optional[datetime] = None
     earnings_other: Optional[List[List[Union[int, str]]]] = None
 
@@ -65,12 +65,12 @@ class CharData(UmaMusumeModel):
     active: bool
     active_ko: Optional[bool] = None
     active_zh_tw: Optional[bool] = None
-    va_en: str
+    va_en: Optional[str] = None
     va_ja: str
     va_ko: str
     va_zh_tw: str
-    va_link: str
-    three_sizes: ThreeSizes 
+    va_link: Optional[str] = None
+    three_sizes: Optional[ThreeSizes] = None 
     birth_day: int
     birth_month: int
     birth_year: int
@@ -85,8 +85,9 @@ class CharData(UmaMusumeModel):
 
     @field_validator('va_link')
     @classmethod
-    def validate_va_link(cls, v: str) -> str:
-        HttpUrlAdapter.validate_python(v)
+    def validate_va_link(cls, v: Optional[str]) -> Optional[str]:
+        if v is not None:
+            HttpUrlAdapter.validate_python(v)
         return v
 
 class Images(UmaMusumeModel):
