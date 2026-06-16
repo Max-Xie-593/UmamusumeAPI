@@ -6,7 +6,7 @@ from .base import UmaMusumeModel
 
 class EventReward(UmaMusumeModel):
     type_: str = Field(alias="t")
-    value: Optional[str] = Field(default=None, alias="v")
+    value: Optional[Union[str, int]] = Field(default=None, alias="v")
     details: Optional[Union[int, str]] = Field(default=None, alias="d")
     is_random: Optional[bool] = Field(default=None, alias="r")
 
