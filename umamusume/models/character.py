@@ -124,9 +124,9 @@ class ProfileData(UmaMusumeModel):
 class DetailedCharacter(PagePropsModel):
     item_data: BasicCharacter
     char_data: CharData
-    profile_data: ProfileData
-    profile_art_meta: ProfileArtMeta
-    event_data: EventData
-    objective_data: List[ObjectiveDatum]
-    evo_loc_data: EvoLOCData
+    profile_data: Optional[ProfileData] = None
+    profile_art_meta: Optional[ProfileArtMeta] = None
+    event_data: Optional[EventData] = None
+    objective_data: Optional[List[ObjectiveDatum]] = None
+    evo_loc_data: Optional[EvoLOCData] = None
     is_char_card: bool
