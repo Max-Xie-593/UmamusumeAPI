@@ -23,6 +23,12 @@ async def test_fetch_character_detail(client: UmaMusumeAPI):
     assert detail
     assert detail.item_data.id == char_id
 
+    # Test specific character with empty profileData & localized schema shifts (Special Week)
+    special_week = await client.fetch_character_detail("100101-special-week")
+    assert special_week
+    assert special_week.item_data.id == "100101-special-week"
+    assert special_week.char_data.name_en or special_week.char_data.en_name
+
 @pytest.mark.asyncio
 async def test_fetch_skills(client: UmaMusumeAPI):
     skills = await client.fetch_skills()

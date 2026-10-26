@@ -1,18 +1,19 @@
 from __future__ import annotations
 
 from typing import Optional, List
+from pydantic import Field, AliasChoices
 from .base import UmaMusumeModel, LocalizedNameMixin, PagePropsModel
 from .enums import DidNotExist, UnreleasedServer, Location
 
 class Alt(UmaMusumeModel):
     course_id: int
-    did_not_exist: DidNotExist
+    did_not_exist: Optional[DidNotExist] = None
     direction: int
     id: int
     race_id: int
     tid: str
     track: int
-    unreleased_servers: List[UnreleasedServer]
+    unreleased_servers: Optional[List[UnreleasedServer]] = None
     distance: Optional[int] = None
     entries: Optional[int] = None
 
@@ -108,12 +109,10 @@ class DetailedTrackName(PagePropsModel):
     racetrack_id: int
     racetrack_url_name: str
 
-class Race(UmaMusumeModel):
+class Race(UmaMusumeModel, LocalizedNameMixin):
     id: int
-    name_en: Optional[str] = None
-    name_jp: str
-    name_ko: Optional[str] = None
-    name_tw: Optional[str] = None
+    name_jp: Optional[str] = Field(default=None, validation_alias=AliasChoices('nameJp', 'name_jp', 'nameJa', 'name_ja', 'jpname', 'jp_name'))
+    name_zh_tw: Optional[str] = Field(default=None, validation_alias=AliasChoices('nameZhTw', 'name_zh_tw', 'nameTw', 'name_tw'))
     group: int
     grade: int
     track: int
@@ -136,8 +135,8 @@ class Alternative(UmaMusumeModel):
     target_type: int
     race_choice: int
     race_choice_details: int
-    races: List[Race]
-    turns_break: int
+    races: Optional[List[Race]] = None
+    turns_break: Optional[int] = None
 
 class ObjectiveDatum(UmaMusumeModel):
     order: int

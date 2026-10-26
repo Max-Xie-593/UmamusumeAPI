@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from typing import Optional, List, Union
-from pydantic import Field, HttpUrl, TypeAdapter, field_validator
+from typing import Optional, List, Union, Any
+from pydantic import Field, HttpUrl, TypeAdapter, field_validator, AliasChoices
 from datetime import datetime
 from .base import UmaMusumeModel, LocalizedNameMixin, LocalizedTitleMixin, LocalizedReleaseMixin, PagePropsModel
 from .enums import Aptitude, Obtained
@@ -57,26 +57,31 @@ class CharData(UmaMusumeModel):
     url_name: str
     tid: str
     char_id: int
-    jp_name: str
-    en_name: str
-    name_ko: Optional[str] = None
-    name_tw: Optional[str] = None
+    jp_name: Optional[str] = Field(default=None, validation_alias=AliasChoices('jp_name', 'jpName', 'name_ja', 'nameJa', 'name_jp', 'nameJp'))
+    name_ja: Optional[str] = Field(default=None, validation_alias=AliasChoices('name_ja', 'nameJa', 'jp_name', 'jpName', 'name_jp', 'nameJp'))
+    en_name: Optional[str] = Field(default=None, validation_alias=AliasChoices('en_name', 'enName', 'name_en', 'nameEn'))
+    name_en: Optional[str] = Field(default=None, validation_alias=AliasChoices('name_en', 'nameEn', 'en_name', 'enName'))
+    name_ko: Optional[str] = Field(default=None, validation_alias=AliasChoices('name_ko', 'nameKo'))
+    name_tw: Optional[str] = Field(default=None, validation_alias=AliasChoices('name_tw', 'nameTw', 'name_zh_tw', 'nameZhTw'))
+    name_zh_tw: Optional[str] = Field(default=None, validation_alias=AliasChoices('name_zh_tw', 'nameZhTw', 'name_tw', 'nameTw'))
+    color_main: Optional[str] = None
+    color_sub: Optional[str] = None
     playable: bool
     active: bool
     active_ko: Optional[bool] = None
     active_zh_tw: Optional[bool] = None
     va_en: Optional[str] = None
-    va_ja: str
+    va_ja: Optional[str] = None
     va_ko: Optional[str] = None
     va_zh_tw: Optional[str] = None
     va_link: Optional[str] = None
     three_sizes: Optional[ThreeSizes] = None 
-    birth_day: int
-    birth_month: int
-    birth_year: int
-    height: int
-    sex: int
-    rl: Rl 
+    birth_day: Optional[int] = None
+    birth_month: Optional[int] = None
+    birth_year: Optional[int] = None
+    height: Optional[int] = None
+    sex: Optional[int] = None
+    rl: Optional[Rl] = None 
     playable_ko: Optional[bool] = None
     playable_zh_tw: Optional[bool] = None
     playable_en: Optional[bool] = None
@@ -101,7 +106,7 @@ class ProfileArtMeta(UmaMusumeModel):
     images: Images
 
 class ProfileEn(UmaMusumeModel):
-    secrets: List[str]
+    secrets: Optional[List[str]] = None
     self_intro: Optional[str] = None
     tagline: Optional[str] = None
     weight: Optional[str] = None
@@ -115,11 +120,11 @@ class ProfileEn(UmaMusumeModel):
     family: Optional[str] = None
 
 class ProfileData(UmaMusumeModel):
-    char_id: int
-    ja: ProfileEn
-    ko: ProfileEn
-    zh_tw: ProfileEn
-    en: ProfileEn
+    char_id: Optional[int] = None
+    ja: Optional[ProfileEn] = None
+    ko: Optional[ProfileEn] = None
+    zh_tw: Optional[ProfileEn] = None
+    en: Optional[ProfileEn] = None
 
 class DetailedCharacter(PagePropsModel):
     item_data: BasicCharacter
@@ -130,3 +135,10 @@ class DetailedCharacter(PagePropsModel):
     objective_data: Optional[List[ObjectiveDatum]] = None
     evo_loc_data: Optional[EvoLOCData] = None
     is_char_card: bool
+
+    @field_validator('profile_data', mode='before')
+    @classmethod
+    def validate_profile_data(cls, v: Any) -> Any:
+        if v == {} or v == []:
+            return None
+        return v

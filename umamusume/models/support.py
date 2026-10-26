@@ -10,8 +10,12 @@ class HintOtherClass(UmaMusumeModel):
     hint_type: int
     hint_value: int
 
+class HintOtherLevelStats(UmaMusumeModel):
+    level: int
+    stats: List[HintOtherClass]
+
 class Hints(UmaMusumeModel):
-    hint_others: List[Union[HintOtherClass, List[HintOtherClass]]]
+    hint_others: List[Union[HintOtherClass, HintOtherLevelStats, List[HintOtherClass]]]
     hint_skills: List[int]
 
 class SupportCardEffect(UmaMusumeModel):
