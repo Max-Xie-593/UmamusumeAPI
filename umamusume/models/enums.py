@@ -3,6 +3,7 @@ from enum import Enum
 class Obtained(Enum):
     GACHA = "gacha"
     LIMITED_QUEST = "limited_quest"
+    MAIN_STORY = "main_story"
     PROMO = "promo"
     SHOP = "shop"
     STORY_EVENT = "story_event"
