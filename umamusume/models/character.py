@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Optional, List, Union, Any
+from typing import Optional, List, Union, Any, Dict
 from pydantic import Field, HttpUrl, TypeAdapter, field_validator, AliasChoices
 from datetime import datetime
 from .base import UmaMusumeModel, LocalizedNameMixin, LocalizedTitleMixin, LocalizedReleaseMixin, PagePropsModel
@@ -24,19 +24,29 @@ class BasicCharacter(UmaMusumeModel, LocalizedNameMixin, LocalizedTitleMixin, Lo
     base_stats: List[int] = Field(alias="base_stats") 
     two_star_stats: Optional[List[int]] = Field(default=None, alias="two_star_stats") 
     three_star_stats: Optional[List[int]] = Field(default=None, alias="three_star_stats") 
-    four_star_stats: List[int] = Field(alias="4_star_stats") 
-    five_star_stats: List[int] = Field(alias="5_star_stats") 
+    four_star_stats: Optional[List[int]] = Field(default=None, validation_alias=AliasChoices('four_star_stats', '4_star_stats', 'fourStarStats')) 
+    five_star_stats: Optional[List[int]] = Field(default=None, validation_alias=AliasChoices('five_star_stats', '5_star_stats', 'fiveStarStats')) 
 
     obtained: Obtained
 
     skills_event_en: Optional[List[int]] = None
     skills_awakening: List[int] = Field(alias="skills_awakening")
+    skills_awakening_en: Optional[List[int]] = None
+    skills_awakening_ko: Optional[List[int]] = None
+    skills_awakening_zh_tw: Optional[List[int]] = None
     skills_event: List[int] = Field(alias="skills_event")
-    skills_evo: List[SkillsEvo] = Field(alias="skills_evo")
+    skills_evo: Optional[List[SkillsEvo]] = None
     skills_innate: List[int] = Field(alias="skills_innate")
     skills_unique: List[int] = Field(alias="skills_unique")
     stat_bonus: List[int] = Field(alias="stat_bonus")
     talent_group: int
+
+    event_statuses: Optional[List[int]] = None
+    event_statuses_en: Optional[List[int]] = None
+    event_statuses_ko: Optional[List[int]] = None
+    event_statuses_zh_tw: Optional[List[int]] = None
+    premium: Optional[bool] = None
+    preview_id: Optional[int] = None
 
 class Rl(UmaMusumeModel):
     country: Optional[str] = None
@@ -126,6 +136,15 @@ class ProfileData(UmaMusumeModel):
     zh_tw: Optional[ProfileEn] = None
     en: Optional[ProfileEn] = None
 
+class CharacterEvolution(UmaMusumeModel):
+    old: int
+    new: int
+    servers: Optional[List[str]] = None
+    start: Optional[int] = None
+    future: Optional[Union[bool, Dict[str, Any]]] = None
+    conditions: Optional[List[Any]] = None
+    history: Optional[List[Dict[str, Any]]] = None
+
 class DetailedCharacter(PagePropsModel):
     item_data: BasicCharacter
     char_data: CharData
@@ -134,6 +153,7 @@ class DetailedCharacter(PagePropsModel):
     event_data: Optional[EventData] = None
     objective_data: Optional[List[ObjectiveDatum]] = None
     evo_loc_data: Optional[EvoLOCData] = None
+    evolutions: Optional[List[CharacterEvolution]] = None
     is_char_card: bool
 
     @field_validator('profile_data', mode='before')
